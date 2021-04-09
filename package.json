@@ -1,0 +1,23 @@
+{
+  "name": "serverlessproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mauricio Duran @mauduran, Edgar Medina @ipanchomx",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.882.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "serverless": "^2.34.0",
+    "serverless-offline": "^6.9.0",
+    "serverless-webpack": "^5.4.1",
+    "webpack": "^5.31.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.6.0"
+  }
+}

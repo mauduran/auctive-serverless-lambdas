@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Serverless Offline",
+            "program": "${workspaceFolder}/node_modules/serverless/bin/serverless",
+            "args": ["offline", "start", "--httpPort", "4000", "--noTimeout"],
+            "protocol": "inspector",
+            "runtimeExecutable": "node",
+            "env": {
+                "tableName": "auctive-table",
+                "tokenSecret": "AYWOW_AMAZING!",
+                "region": "us-east-1",
+                "cloudSearchDocEndpoint": "doc-auctive-search-2hfh37w3idrm44ips6qft5mwzq.us-east-1.cloudsearch.amazonaws.com" ,
+                "cloudSearchEndpoint": "search-auctive-search-2hfh37w3idrm44ips6qft5mwzq.us-east-1.cloudsearch.amazonaws.com",
+            }
+        }
+    ]
+}
