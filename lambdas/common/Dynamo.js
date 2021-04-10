@@ -39,13 +39,35 @@ const Dynamo = {
             ...params,
             TableName: process.env.tableName,
         }
-
+        return dynamoDB.query(params).promise()
+            .then(data => {
+                return data.Items
+            });
+    },
+    async queryDocumentsSkBegins(pk, sk) {
+        const params = {
+            KeyConditionExpression: "PK = :pk  and begins_with (SK, :sk)",
+            ExpressionAttributeValues: {
+                ":pk": pk,
+                ":sk": sk
+            },
+            TableName: process.env.tableName,
+        }
 
         return dynamoDB.query(params).promise()
             .then(data => {
-                console.log(data);
                 return data.Items
             });
+    },
+    async deleteDocumentByKey(pk, sk) {
+        const params = {
+            TableName: process.env.tableName,
+            Key: {
+                PK: pk,
+                SK: sk
+            }
+        }
+        return dynamoDB.delete(params).promise();
     }
 }
 module.exports = Dynamo;

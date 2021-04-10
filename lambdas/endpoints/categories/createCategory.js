@@ -25,7 +25,7 @@ exports.handler = async event => {
 
     try {
         categoryName = body.categoryName.charAt(0).toUpperCase() + body.categoryName.slice(1).toLowerCase();
-        await createCategory(categoryName);
+        await createCategory(categoryName.replace(' ','_'));
 
         return Responses._201({ success: true, message: "Category created" });
     } catch (error) {

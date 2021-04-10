@@ -115,6 +115,22 @@ functions:
             path: categories/
             method: POST
             cors: true
+
+  getCategories:
+    handler: lambdas/endpoints/categories/getCategories.handler
+    events:
+      - http:
+            path: categories/
+            method: GET
+            cors: true
+
+  deleteCategoryById:
+    handler: lambdas/endpoints/categories/deleteCategoryById.handler
+    events:
+      - http:
+            path: categories/{id}
+            method: DELETE
+            cors: true
             
   getScheduledActions:
     handler: lambdas/endpoints/scheduled-actions/getScheduledActions.handler
