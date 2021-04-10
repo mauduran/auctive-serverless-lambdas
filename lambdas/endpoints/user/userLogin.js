@@ -25,9 +25,10 @@ const verifyCredentials = async (hash, password) => {
     }
 }
 
-const signToken = async (email) => {
+const signToken = async (email, is_admin=false) => {
     const token = jwt.sign({
-        email
+        email,
+        is_admin
     }, process.env.tokenSecret);
 
     params = {
@@ -54,7 +55,7 @@ exports.handler = async event => {
     try {
         const user = await findUserByEmail(email);
         await verifyCredentials(user.p_hash, password);
-        const token = await signToken(email);
+        const token = await signToken(email, user.is_admin);
         return Responses._201({ success: true, token: token });
     } catch (error) {
         return Responses._400({ error: true, message: "Could not login" });
