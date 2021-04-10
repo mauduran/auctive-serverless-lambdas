@@ -59,21 +59,21 @@ custom:
 
 functions:
   test:
-    handler: lambdas/endpoints/user/test.handler
+    handler: lambdas/endpoints/users/test.handler
     events:
       - http:
             path: test/
             method: GET
             cors: true
   createUser:
-    handler: lambdas/endpoints/user/createUser.handler
+    handler: lambdas/endpoints/users/createUser.handler
     events:
       - http:
             path: users/
             method: POST
             cors: true
   login:
-    handler: lambdas/endpoints/user/userLogin.handler
+    handler: lambdas/endpoints/users/userLogin.handler
     events:
       - http:
             path: users/login
@@ -81,7 +81,7 @@ functions:
             cors: true
 
   change-password:
-    handler: lambdas/endpoints/user/changePassword.handler
+    handler: lambdas/endpoints/users/changePassword.handler
     events:
       - http:
             path: users/change-password
@@ -89,7 +89,7 @@ functions:
             cors: true
 
   getUser:
-    handler: lambdas/endpoints/user/getUser.handler
+    handler: lambdas/endpoints/users/getUser.handler
     events:
         - http:
               path: users/user
@@ -101,7 +101,7 @@ functions:
               cors: true
 
   searchAuctions:
-    handler: lambdas/endpoints/auction/getAuctions.handler
+    handler: lambdas/endpoints/auctions/getAuctions.handler
     events:
       - http:
             path: auctions/
@@ -151,14 +151,14 @@ functions:
             private: true 
   
   imageUpload:
-        handler: lambdas/endpoints/auction/imageUpload.handler
+        handler: lambdas/endpoints/auctions/imageUpload.handler
         events:
             - http:
                   path: image-upload/
                   method: POST
                   cors: true
   imagesUpload:
-        handler: lambdas/endpoints/auction/imagesUpload.handler
+        handler: lambdas/endpoints/auctions/imagesUpload.handler
         events:
             - http:
                   path: images-upload/
