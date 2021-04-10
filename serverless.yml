@@ -41,12 +41,18 @@ package:
     individually: true
 
 custom:
-    tableName: your value here
-    tokenSecret: your value here
-    cloudSearchDocEndpoint: your value here
-    cloudSearchEndpoint: your value here
-    dynamoStreamArn: your value here
-    imageUploadBucket: your value here
+    # tableName: your value here
+    # tokenSecret: your value here
+    # cloudSearchDocEndpoint: your value here
+    # cloudSearchEndpoint: your value here
+    # dynamoStreamArn: your value here
+    # imageUploadBucket: your value here
+    tableName: auctive-table
+    tokenSecret: AYWOW_AMAZING!
+    cloudSearchDocEndpoint: doc-auctive-search-2hfh37w3idrm44ips6qft5mwzq.us-east-1.cloudsearch.amazonaws.com
+    cloudSearchEndpoint: search-auctive-search-2hfh37w3idrm44ips6qft5mwzq.us-east-1.cloudsearch.amazonaws.com
+    dynamoStreamArn: arn:aws:dynamodb:us-east-1:187673598599:table/auctive-table/stream/2021-04-02T21:32:52.441
+    imageUploadBucket: auctive-auction-images
     
     webpack:
       webpackConfig: ./webpack.config.js
@@ -59,17 +65,6 @@ functions:
             path: test/
             method: GET
             cors: true
-  getUser:
-    handler: lambdas/endpoints/user/getUser.handler
-    events:
-        - http:
-              path: users/user
-              method: GET
-              cors: true
-        - http:
-              path: users/{email}
-              method: GET
-              cors: true
   createUser:
     handler: lambdas/endpoints/user/createUser.handler
     events:
@@ -85,6 +80,26 @@ functions:
             method: POST
             cors: true
 
+  change-password:
+    handler: lambdas/endpoints/user/changePassword.handler
+    events:
+      - http:
+            path: users/change-password
+            method: POST
+            cors: true
+
+  getUser:
+    handler: lambdas/endpoints/user/getUser.handler
+    events:
+        - http:
+              path: users/user
+              method: GET
+              cors: true
+        - http:
+              path: users/{email}
+              method: GET
+              cors: true
+
   searchAuctions:
     handler: lambdas/endpoints/auction/getAuctions.handler
     events:
@@ -92,6 +107,23 @@ functions:
             path: auctions/
             method: GET
             cors: true
+            
+  createCategory:
+    handler: lambdas/endpoints/categories/createCategory.handler
+    events:
+      - http:
+            path: categories/
+            method: POST
+            cors: true
+            
+  getScheduledActions:
+    handler: lambdas/endpoints/scheduled-actions/getScheduledActions.handler
+    events:
+      - http:
+            path: scheduled-actions/
+            method: GET
+            cors: true
+            private: true
 
   sendSMS:
     handler: lambdas/endpoints/sms/sendSMS.handler
