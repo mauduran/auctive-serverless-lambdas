@@ -1,12 +1,8 @@
-const AWS = require('aws-sdk');
 const Responses = require('../../common/API_Responses');
-
-const s3 = new AWS.S3();
-
-const allowedMimes = ['image/jpeg', 'image/png', 'image/jpg'];
+const S3 = require('../../common/S3');
+const allowedMimes = require('../../common/allowedMimes');
 
 const getImageRequest = (image, auctionId, imageNum) => {
-
     if (image.image.substr(0, 7) === 'base64,') {
         image.image = image.image.substr(7, image.image.length);
     }
@@ -54,16 +50,10 @@ exports.handler = async event => {
         body.images.map((image, idx) => {
             params = getImageRequest(image, body.auctionId, idx);
             urls.push(`https://${process.env.imageUploadBucket}.s3.amazonaws.com/${params.Key}`)
-            return s3
-                .putObject({
-                    ...params,
-                    Bucket: process.env.imageUploadBucket,
-                    ACL: 'public-read',
-                }).promise();
+            return S3.upload(params);
         })
 
-        const responses = await Promise.all(body.images);
-
+        await Promise.all(body.images);
 
         return Responses._200({
             imageURLs: urls,

@@ -1,12 +1,11 @@
-const AWS = require('aws-sdk');
 const Responses = require('../../common/API_Responses');
+const allowedMimes = require('../../common/allowedMimes');
+const S3 = require('../../common/S3')
 
-const s3 = new AWS.S3();
-
-const allowedMimes = ['image/jpeg', 'image/png', 'image/jpg'];
 
 exports.handler = async event => {
     try {
+        console.log(event);
         const body = JSON.parse(event.body);
 
         if (!body || !body.image || !body.mime || !body.auctionId || !body.imageNum) {
@@ -27,7 +26,7 @@ exports.handler = async event => {
         let regex = /^data:(.+)\/(.+);base64,(.*)$/;
         let matches = imageData.match(regex);
         let detectedMime = `${matches[1]}/${matches[2]}`;
-        let ext =  matches[2];
+        let ext = matches[2];
         let data = matches[3];
 
         let buffer = Buffer.from(data, 'base64');
@@ -39,17 +38,12 @@ exports.handler = async event => {
 
         const key = `${auctionId}/${imageNum}.${ext}`.replace('#', "_").replace(' ', "_");
 
-
-
-        const res = await s3
-            .putObject({
-                Body: buffer,
-                Key: key,
-                ContentType: body.mime,
-                Bucket: process.env.imageUploadBucket,
-                ACL: 'public-read',
-            })
-            .promise();
+        await S3.upload({
+            Body: buffer,
+            Key: key,
+            ContentType: body.mime,
+            Bucket: process.env.imageUploadBucket
+        });
 
         const url = `https://${process.env.imageUploadBucket}.s3.amazonaws.com/${key}`;
         return Responses._200({
