@@ -18,7 +18,7 @@ const createUser = async (name, email, password) => {
         p_hash: hash,
     }
 
-    return Dynamo.writeIfNotExists(user);
+    return Dynamo.writeIfNotExists(user, 'PK');
 }
 
 exports.handler = async event => {
