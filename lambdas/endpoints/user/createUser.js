@@ -11,6 +11,7 @@ const createUser = async (name, email, password) => {
         SK: `#PROFILE#${email}`,
         joined: new Date(),
         is_verified: false,
+        sms_notifications_enabled: false,
         name: name,
         email: email,
         is_admin: false,
