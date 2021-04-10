@@ -1,5 +1,5 @@
 
-service: serverlessproject
+service: auctive-serverless
 
 frameworkVersion: '2'
 
@@ -17,6 +17,7 @@ provider:
       cloudSearchDocEndpoint: ${self:custom.cloudSearchDocEndpoint}
       cloudSearchEndpoint: ${self:custom.cloudSearchEndpoint}
       dynamoStreamArn: ${self:custom.dynamoStreamArn}
+      imageUploadBucket: ${self:custom.imageUploadBucket}
   iam:
     role:
       statements:
@@ -45,6 +46,8 @@ custom:
     cloudSearchDocEndpoint: your value here
     cloudSearchEndpoint: your value here
     dynamoStreamArn: your value here
+    imageUploadBucket: your value here
+    
     webpack:
       webpackConfig: ./webpack.config.js
 
@@ -99,7 +102,30 @@ functions:
             cors: true
             private: true 
   
+  imageUpload:
+        handler: lambdas/endpoints/auction/imageUpload.handler
+        events:
+            - http:
+                  path: image-upload/
+                  method: POST
+                  cors: true
+  imagesUpload:
+        handler: lambdas/endpoints/auction/imagesUpload.handler
+        events:
+            - http:
+                  path: images-upload/
+                  method: POST
+                  cors: true
+
   stream2cloudsearch:
     handler: lambdas/streams/stream2cloudsearch.handler
     events:
       - stream: ${self:custom.dynamoStreamArn}
+
+resources:
+    Resources:
+        ImageUploadBucket:
+            Type: AWS::S3::Bucket
+            Properties:
+                BucketName: ${self:custom.imageUploadBucket}
+                AccessControl: PublicRead
