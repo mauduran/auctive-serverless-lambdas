@@ -94,11 +94,20 @@ functions:
               path: users/{email}
               method: GET
               cors: true
+
   getUserConversations:
     handler: lambdas/endpoints/conversations/getConversations.handler
     events:
         - http:
               path: conversations/
+              method: GET
+              cors: true
+
+  getConversationById:
+    handler: lambdas/endpoints/conversations/getConversationById.handler
+    events:
+        - http:
+              path: conversations/{id}
               method: GET
               cors: true
 
