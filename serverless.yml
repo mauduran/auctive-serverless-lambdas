@@ -111,6 +111,14 @@ functions:
               method: GET
               cors: true
 
+  getConversationMessages:
+    handler: lambdas/endpoints/conversations/getMessages.handler
+    events:
+        - http:
+              path: conversations/{id}/messages
+              method: GET
+              cors: true
+
   searchAuctions:
     handler: lambdas/endpoints/auctions/getAuctions.handler
     events:
