@@ -18,7 +18,12 @@
                 "region": "us-east-1",
                 "cloudSearchDocEndpoint": "doc-auctive-search-2hfh37w3idrm44ips6qft5mwzq.us-east-1.cloudsearch.amazonaws.com" ,
                 "cloudSearchEndpoint": "search-auctive-search-2hfh37w3idrm44ips6qft5mwzq.us-east-1.cloudsearch.amazonaws.com",
+            },
+            "windows": {
+                "program": "${workspaceFolder\\/node_modules\\serverless\\bin\\serverless",
+
             }
+
         }
     ]
 }
