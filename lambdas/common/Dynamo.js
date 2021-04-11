@@ -59,6 +59,19 @@ const Dynamo = {
                 return data.Items
             });
     },
+    async queryDocumentsIndex(index, params) {
+        params = {
+            TableName: process.env.tableName,
+            IndexName: index,
+            ...params
+        }
+
+        return dynamoDB.query(params).promise()
+            .then(data => {
+                return data.Items;
+            });
+    },
+
     async deleteDocumentByKey(pk, sk) {
         const params = {
             TableName: process.env.tableName,

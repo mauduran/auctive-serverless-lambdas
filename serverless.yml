@@ -41,18 +41,13 @@ package:
     individually: true
 
 custom:
-    # tableName: your value here
-    # tokenSecret: your value here
-    # cloudSearchDocEndpoint: your value here
-    # cloudSearchEndpoint: your value here
-    # dynamoStreamArn: your value here
-    # imageUploadBucket: your value here
-    tableName: auctive-table
-    tokenSecret: AYWOW_AMAZING!
-    cloudSearchDocEndpoint: doc-auctive-search-2hfh37w3idrm44ips6qft5mwzq.us-east-1.cloudsearch.amazonaws.com
-    cloudSearchEndpoint: search-auctive-search-2hfh37w3idrm44ips6qft5mwzq.us-east-1.cloudsearch.amazonaws.com
-    dynamoStreamArn: arn:aws:dynamodb:us-east-1:187673598599:table/auctive-table/stream/2021-04-02T21:32:52.441
-    imageUploadBucket: auctive-auction-images
+    tableName: your value here
+    tokenSecret: your value here
+    cloudSearchDocEndpoint: your value here
+    cloudSearchEndpoint: your value here
+    dynamoStreamArn: your value here
+    imageUploadBucket: your value here
+
     
     webpack:
       webpackConfig: ./webpack.config.js
@@ -97,6 +92,13 @@ functions:
               cors: true
         - http:
               path: users/{email}
+              method: GET
+              cors: true
+  getUserConversations:
+    handler: lambdas/endpoints/conversations/getConversations.handler
+    events:
+        - http:
+              path: conversations/
               method: GET
               cors: true
 
