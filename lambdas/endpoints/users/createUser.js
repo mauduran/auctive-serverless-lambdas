@@ -11,13 +11,14 @@ const createUser = async (name, email, password) => {
         SK: `#PROFILE#${email}`,
         joined: new Date(),
         is_verified: false,
+        sms_notifications_enabled: false,
         name: name,
         email: email,
         is_admin: false,
         p_hash: hash,
     }
 
-    return Dynamo.writeIfNotExists(user);
+    return Dynamo.writeIfNotExists(user, 'PK');
 }
 
 exports.handler = async event => {

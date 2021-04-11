@@ -15,15 +15,13 @@ const findUserByEmail = async (email) => {
 
 
 exports.handler = async event => {
-    console.log(event);
-
-
     try {
         const authorization = event.headers && event.headers.Authorization;
 
         if (!authorization) return Responses._401({ message: 'Unauthorized' });
 
         const verification = jwt.verify(authorization, process.env.tokenSecret);
+
 
         if (!verification) return Responses._401({ message: 'Unauthorized' });
         const email = event.pathParameters && event.pathParameters.email || verification.email;

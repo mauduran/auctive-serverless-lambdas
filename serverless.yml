@@ -1,5 +1,5 @@
 
-service: serverlessproject
+service: auctive-serverless
 
 frameworkVersion: '2'
 
@@ -17,6 +17,7 @@ provider:
       cloudSearchDocEndpoint: ${self:custom.cloudSearchDocEndpoint}
       cloudSearchEndpoint: ${self:custom.cloudSearchEndpoint}
       dynamoStreamArn: ${self:custom.dynamoStreamArn}
+      imageUploadBucket: ${self:custom.imageUploadBucket}
   iam:
     role:
       statements:
@@ -45,19 +46,45 @@ custom:
     cloudSearchDocEndpoint: your value here
     cloudSearchEndpoint: your value here
     dynamoStreamArn: your value here
+    imageUploadBucket: your value here
+
+    
     webpack:
       webpackConfig: ./webpack.config.js
 
 functions:
   test:
-    handler: lambdas/endpoints/user/test.handler
+    handler: lambdas/endpoints/users/test.handler
     events:
       - http:
             path: test/
             method: GET
             cors: true
+  createUser:
+    handler: lambdas/endpoints/users/createUser.handler
+    events:
+      - http:
+            path: users/
+            method: POST
+            cors: true
+  login:
+    handler: lambdas/endpoints/users/userLogin.handler
+    events:
+      - http:
+            path: users/login
+            method: POST
+            cors: true
+
+  change-password:
+    handler: lambdas/endpoints/users/changePassword.handler
+    events:
+      - http:
+            path: users/change-password
+            method: POST
+            cors: true
+
   getUser:
-    handler: lambdas/endpoints/user/getUser.handler
+    handler: lambdas/endpoints/users/getUser.handler
     events:
         - http:
               path: users/user
@@ -67,28 +94,54 @@ functions:
               path: users/{email}
               method: GET
               cors: true
-  createUser:
-    handler: lambdas/endpoints/user/createUser.handler
+  getUserConversations:
+    handler: lambdas/endpoints/conversations/getConversations.handler
     events:
-      - http:
-            path: users/
-            method: POST
-            cors: true
-  login:
-    handler: lambdas/endpoints/user/userLogin.handler
-    events:
-      - http:
-            path: users/login
-            method: POST
-            cors: true
+        - http:
+              path: conversations/
+              method: GET
+              cors: true
 
   searchAuctions:
-    handler: lambdas/endpoints/auction/getAuctions.handler
+    handler: lambdas/endpoints/auctions/getAuctions.handler
     events:
       - http:
             path: auctions/
             method: GET
             cors: true
+            
+  createCategory:
+    handler: lambdas/endpoints/categories/createCategory.handler
+    events:
+      - http:
+            path: categories/
+            method: POST
+            cors: true
+
+  getCategories:
+    handler: lambdas/endpoints/categories/getCategories.handler
+    events:
+      - http:
+            path: categories/
+            method: GET
+            cors: true
+
+  deleteCategoryById:
+    handler: lambdas/endpoints/categories/deleteCategoryById.handler
+    events:
+      - http:
+            path: categories/{id}
+            method: DELETE
+            cors: true
+            
+  getScheduledActions:
+    handler: lambdas/endpoints/scheduled-actions/getScheduledActions.handler
+    events:
+      - http:
+            path: scheduled-actions/
+            method: GET
+            cors: true
+            private: true
 
   sendSMS:
     handler: lambdas/endpoints/sms/sendSMS.handler
@@ -99,7 +152,30 @@ functions:
             cors: true
             private: true 
   
+  imageUpload:
+        handler: lambdas/endpoints/auctions/imageUpload.handler
+        events:
+            - http:
+                  path: image-upload/
+                  method: POST
+                  cors: true
+  imagesUpload:
+        handler: lambdas/endpoints/auctions/imagesUpload.handler
+        events:
+            - http:
+                  path: images-upload/
+                  method: POST
+                  cors: true
+
   stream2cloudsearch:
     handler: lambdas/streams/stream2cloudsearch.handler
     events:
       - stream: ${self:custom.dynamoStreamArn}
+
+resources:
+    Resources:
+        ImageUploadBucket:
+            Type: AWS::S3::Bucket
+            Properties:
+                BucketName: ${self:custom.imageUploadBucket}
+                AccessControl: PublicRead
