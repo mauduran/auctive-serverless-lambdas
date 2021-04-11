@@ -43,3 +43,4 @@ _meta
 .webpack
 serverless.yml
 .vscode/launch.json
+serverless.yml
