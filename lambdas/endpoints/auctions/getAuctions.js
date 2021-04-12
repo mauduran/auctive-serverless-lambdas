@@ -3,6 +3,9 @@ const CloudSearch = require('../../common/CloudSearch');
 
 const parseAuction = (auction) => {
     let auction_id = auction.id;
+
+    auction_id = auction_id.split('#');
+    auction_id = auction_id[auction_id.length-1];
     auction = auction.fields;
     return {
         auction_id, auction_id,
