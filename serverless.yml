@@ -41,14 +41,12 @@ package:
     individually: true
 
 custom:
-    tableName: your value here
-    tokenSecret: your value here
-    cloudSearchDocEndpoint: your value here
-    cloudSearchEndpoint: your value here
-    dynamoStreamArn: your value here
-    imageUploadBucket: your value here
-
-    
+    tableName: x
+    tokenSecret: x!
+    cloudSearchDocEndpoint: X
+    cloudSearchEndpoint: x
+    dynamoStreamArn: x
+    imageUploadBucket: x
     webpack:
       webpackConfig: ./webpack.config.js
 
@@ -83,6 +81,13 @@ functions:
             method: POST
             cors: true
 
+  addPhoneNumber:
+        handler: lambdas/endpoints/users/updateUserPhoneNumber.handler
+        events:
+            - http:
+                  path: users/update-phone
+                  method: PUT
+                  cors: true
   getUser:
     handler: lambdas/endpoints/users/getUser.handler
     events:
