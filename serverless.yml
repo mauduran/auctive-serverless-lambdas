@@ -42,10 +42,10 @@ package:
 
 custom:
     tableName: x
-    tokenSecret: x!
-    cloudSearchDocEndpoint: X
+    tokenSecret: x
+    cloudSearchDocEndpoint: x
     cloudSearchEndpoint: x
-    dynamoStreamArn: x
+    dynamoStreamArn: X
     imageUploadBucket: x
     webpack:
       webpackConfig: ./webpack.config.js
@@ -99,28 +99,11 @@ functions:
               path: users/{email}
               method: GET
               cors: true
-
   getUserConversations:
     handler: lambdas/endpoints/conversations/getConversations.handler
     events:
         - http:
               path: conversations/
-              method: GET
-              cors: true
-
-  getConversationById:
-    handler: lambdas/endpoints/conversations/getConversationById.handler
-    events:
-        - http:
-              path: conversations/{id}
-              method: GET
-              cors: true
-
-  getConversationMessages:
-    handler: lambdas/endpoints/conversations/getMessages.handler
-    events:
-        - http:
-              path: conversations/{id}/messages
               method: GET
               cors: true
 
@@ -188,6 +171,15 @@ functions:
                   path: images-upload/
                   method: POST
                   cors: true
+                  
+  createNotification:
+        handler: lambdas/endpoints/notifications/createNotification.handler
+        events:
+            - http:
+                  path: notifications/create
+                  method: POST
+                  cors: true
+
 
   stream2cloudsearch:
     handler: lambdas/streams/stream2cloudsearch.handler
