@@ -88,6 +88,13 @@ functions:
                   path: users/update-phone
                   method: PUT
                   cors: true
+  findUsers:
+    handler: lambdas/endpoints/users/findUsers.handler
+    events:
+        - http:
+              path: users
+              method: GET
+              cors: true
   getUser:
     handler: lambdas/endpoints/users/getUser.handler
     events:
