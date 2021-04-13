@@ -15,7 +15,7 @@ const createNotification = async (email, auctionId, auctionTitle, message, emitt
         auctionId: auctionId,
         auctionTitle: auctionTitle,
         message: message,
-        date: new Date(),
+        date: new Date().toDateString(),
         emitter: emitter
     }
 
@@ -30,18 +30,20 @@ exports.handler = async event => {
     
     if (!verification) return Responses._401({ message: 'Unauthorized' });
 
-    const { email,  message, auctionId, auctionName, emitter } = body;
+    const { email,  message, auctionId, auctionTitle } = body;
 
-    if (!email ||  !message || !auctionId || !auctionName || !emitter) return Responses._400({ error: true,
+    if (!email ||  !message || !auctionId || !auctionTitle) return Responses._400({ error: true,
         message: "Missing required fields"})
 
+    const emitter = verification.email;
+    
     try {
-        await createNotification(email, message, auctionId, auctionName, emitter);
+        await createNotification(email, auctionId, auctionTitle, message, emitter);
 
         return Responses._200({ success: true, message: "Notification created!"});
     } catch (error) {
         console.log(error);
-        return Responses._400({ error: true, message: "Could not change password" });
+        return Responses._400({ error: true, message: "Could not create notification" });
     }
 
 };
