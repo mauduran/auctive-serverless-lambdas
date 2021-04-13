@@ -45,7 +45,7 @@ custom:
     tokenSecret: x
     cloudSearchDocEndpoint: x
     cloudSearchEndpoint: x
-    dynamoStreamArn: X
+    dynamoStreamArn: x
     imageUploadBucket: x
     webpack:
       webpackConfig: ./webpack.config.js
@@ -112,6 +112,14 @@ functions:
         - http:
               path: conversations/
               method: GET
+              cors: true
+
+  createConversation:
+    handler: lambdas/endpoints/conversations/createConversation.handler
+    events:
+        - http:
+              path: conversations/create
+              method: POST
               cors: true
 
   searchAuctions:
