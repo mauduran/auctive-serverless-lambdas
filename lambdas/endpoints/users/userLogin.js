@@ -41,7 +41,8 @@ const signToken = async (email, is_admin=false) => {
             ":session_token": token,
         },
     }
-    await Dynamo.updateDocument(params);
+    const res = await Dynamo.updateDocument(params);
+    console.log(res);
     return token;
 }
 

@@ -53,12 +53,12 @@ const Dynamo = {
             },
             TableName: process.env.tableName,
         }
-
         return dynamoDB.query(params).promise()
             .then(data => {
                 return data.Items
             });
     },
+
     async queryDocumentsIndex(index, params) {
         params = {
             TableName: process.env.tableName,
@@ -70,6 +70,15 @@ const Dynamo = {
             .then(data => {
                 return data.Items;
             });
+    },
+
+    async batchWrite(requests){
+        const params = {
+            RequestItems: {
+                [process.env.tableName]: requests
+            }
+        }
+        return dynamoDB.batchWrite(params).promise()
     },
 
     async deleteDocumentByKey(pk, sk) {

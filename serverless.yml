@@ -95,6 +95,30 @@ functions:
               method: GET
               cors: true
 
+  getUserNotifications:
+    handler: lambdas/endpoints/notifications/getNotifications.handler
+    events:
+        - http:
+              path: user/notifications
+              method: GET
+              cors: true
+
+  deleteNotifications:
+    handler: lambdas/endpoints/notifications/deleteNotifications.handler
+    events:
+        - http:
+              path: user/notifications/
+              method: DELETE
+              cors: true
+              
+  deleteNotificationById:
+    handler: lambdas/endpoints/notifications/deleteNotificationById.handler
+    events:
+        - http:
+              path: user/notifications/{id}
+              method: DELETE
+              cors: true
+              
   getUserConversations:
     handler: lambdas/endpoints/conversations/getConversations.handler
     events:
