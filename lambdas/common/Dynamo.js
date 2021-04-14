@@ -90,6 +90,14 @@ const Dynamo = {
             }
         }
         return dynamoDB.delete(params).promise();
+    },
+
+    async scanDocument(params) {
+        params = {
+            TableName: process.env.tableName,
+            ...params 
+        }
+        return dynamoDB.scan(params).promise().then((data) => data.Items);
     }
 }
 module.exports = Dynamo;
