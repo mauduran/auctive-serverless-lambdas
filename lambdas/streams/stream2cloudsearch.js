@@ -13,6 +13,7 @@ const createAuctionCsRequest = (id, record, operation) => {
     }
     if (operation == 'add') {
         let fields = {
+            auction_id: record.auction_id && record.auction_id.S || id,
             end_date: record.end_date.S,
             owner_email: record.owner_email.S,
             description: record.description.S,
@@ -23,7 +24,6 @@ const createAuctionCsRequest = (id, record, operation) => {
             product_img_urls: record.product_img_urls && record.product_img_urls.L.map(url => url.S) || [],
             start_date: record.start_date.S,
             status: record.status.S,
-            interested_users: record.interested_users && record.interested_users.L || [],
             current_price: record.current_price && record.current_price.N
         };
 
