@@ -95,6 +95,13 @@ functions:
               path: users
               method: GET
               cors: true
+  enableNotifications:
+    handler: lambdas/endpoints/users/enableNotifications.handler
+    events:
+        - http:
+              path: users/enable-notifications
+              method: PUT
+              cors: true
   getUser:
     handler: lambdas/endpoints/users/getUser.handler
     events:
@@ -153,6 +160,20 @@ functions:
       - http:
             path: auctions/
             method: GET
+            cors: true
+  getAuctionsFromList:
+    handler: lambdas/endpoints/auctions/getAuctionsFromList.handler
+    events:
+      - http:
+            path: auctions/list
+            method: POST
+            cors: true
+  subscribeToAuction:
+    handler: lambdas/endpoints/auctions/subscribeToAuction.handler
+    events:
+      - http:
+            path: auctions/subscribe
+            method: POST
             cors: true
             
   createCategory:
