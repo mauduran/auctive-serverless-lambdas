@@ -31,9 +31,21 @@ const CloudSearch = {
 
     async searchAuctionsByCategory(category, query) {
         params = {
-            query: `category:'${category}, ${query}'`,
+            query: `category:'${category}', ${query}`,
             queryParser: "lucene",
             size: 20
+        }
+
+        return CloudSearchRead.search(params).promise()
+            .then(result => result.hits.hit);
+    },
+
+    async searchByIdList(idList) {
+        // (or category_id:3 category_id:62 category_id:919)
+        let queries = idList.map(id=>`auction_id:${id}`).join(" ");
+        params = {
+            query: `(or ${queries})`,
+            queryParser: "structured",
         }
 
         return CloudSearchRead.search(params).promise()
@@ -44,10 +56,8 @@ const CloudSearch = {
         params = {
             query,
             size: 20
-
         }
-
-    return CloudSearchRead.search(params).promise()
+        return CloudSearchRead.search(params).promise()
             .then(result => result.hits.hit);
     }
 }
