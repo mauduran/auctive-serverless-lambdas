@@ -13,7 +13,7 @@ const createConversation = async (auctionId, bidderEmail, auctionOwnerEmail) => 
         SK: `#CONVERSATION#${conversationId}`,
         auctionId: auctionId,
         bidder_email: bidderEmail,
-        last_message_date: new Date().toDateString(),
+        last_message_date: new Date().toISOString(),
         last_message_sender: "",
         last_message_value: "",
         seller_email: auctionOwnerEmail,
@@ -32,7 +32,7 @@ const createNotification = async (email, auctionId, auctionTitle, message, emitt
         auctionId: auctionId,
         auctionTitle: auctionTitle,
         message: message,
-        date: new Date().toDateString(),
+        date: new Date().toISOString(),
         emitter: emitter
     }
 

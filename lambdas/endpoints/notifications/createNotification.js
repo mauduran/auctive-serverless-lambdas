@@ -15,7 +15,7 @@ const createNotification = async (email, auctionId, auctionTitle, message, emitt
         auctionId: auctionId,
         auctionTitle: auctionTitle,
         message: message,
-        date: new Date().toDateString(),
+        date: new Date().toISOString(),
         emitter: emitter
     }
 

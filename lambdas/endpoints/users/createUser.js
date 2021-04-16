@@ -9,7 +9,7 @@ const createUser = async (name, email, password) => {
     let user = {
         PK: `USER#${email}`,
         SK: `#PROFILE#${email}`,
-        joined: new Date(),
+        joined: new Date().toISOString(),
         is_verified: false,
         sms_notifications_enabled: false,
         name: name,
