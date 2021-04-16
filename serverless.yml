@@ -47,6 +47,7 @@ custom:
     cloudSearchEndpoint: x
     dynamoStreamArn: x
     imageUploadBucket: x
+     
     webpack:
       webpackConfig: ./webpack.config.js
 
@@ -161,6 +162,14 @@ functions:
             path: auctions/
             method: GET
             cors: true
+  getInterestedUsers:
+    handler: lambdas/endpoints/auctions/getUsersInterested.handler
+    events:
+      - http:
+            path: auctions/{id}/interested
+            method: GET
+            cors: true
+            
   getAuctionsFromList:
     handler: lambdas/endpoints/auctions/getAuctionsFromList.handler
     events:
