@@ -47,18 +47,10 @@ custom:
     cloudSearchEndpoint: x
     dynamoStreamArn: x
     imageUploadBucket: x
-     
     webpack:
       webpackConfig: ./webpack.config.js
 
 functions:
-  test:
-    handler: lambdas/endpoints/users/test.handler
-    events:
-      - http:
-            path: test/
-            method: GET
-            cors: true
   createUser:
     handler: lambdas/endpoints/users/createUser.handler
     events:
@@ -112,6 +104,14 @@ functions:
               cors: true
         - http:
               path: users/{email}
+              method: GET
+              cors: true
+
+  getUserAuctionSubscriptions:
+    handler: lambdas/endpoints/users/getAuctionSubscriptions.handler
+    events:
+        - http:
+              path: user/auctions
               method: GET
               cors: true
 
