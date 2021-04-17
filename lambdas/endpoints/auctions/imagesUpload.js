@@ -1,34 +1,7 @@
 const Responses = require('../../common/API_Responses');
 const S3 = require('../../common/S3');
 const allowedMimes = require('../../common/allowedMimes');
-
-const getImageRequest = (image, auctionId, imageNum) => {
-    if (image.image.substr(0, 7) === 'base64,') {
-        image.image = image.image.substr(7, image.image.length);
-    }
-
-    const regex = /^data:(.+)\/(.+);base64,(.*)$/;
-    const matches = image.image.match(regex);
-    const detectedMime = `${matches[1]}/${matches[2]}`;
-    const ext = matches[2];
-    const data = matches[3];
-
-    let buffer = Buffer.from(data, 'base64');
-
-
-    if (detectedMime !== image.mime) {
-        return Responses._400({ message: 'mime types dont match' });
-    }
-
-    const key = `${auctionId}/${imageNum}.${ext}`.replace('#', "_").replace(' ', "_");
-
-    return {
-        Body: buffer,
-        Key: key,
-        ContentType: image.mime,
-    }
-
-}
+const imageUtils = require('../../common/imageUtils');
 
 exports.handler = async event => {
     try {
@@ -48,7 +21,8 @@ exports.handler = async event => {
         const urls = []
 
         body.images.map((image, idx) => {
-            params = getImageRequest(image, body.auctionId, idx);
+            params = imageUtils.getImageRequest(process.env.imageUploadBucket, image, body.auctionId, idx);
+            // getImageRequest(image, body.auctionId, idx);
             urls.push(`https://${process.env.imageUploadBucket}.s3.amazonaws.com/${params.Key}`)
             return S3.upload(params);
         })
