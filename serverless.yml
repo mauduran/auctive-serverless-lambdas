@@ -265,11 +265,11 @@ functions:
                   method: GET
                   cors: true
                               
-  acceptPendingVerification:
-        handler: lambdas/endpoints/verifications/acceptVerificationRequest.handler
+  updateVerificationRequest:
+        handler: lambdas/endpoints/verifications/updateVerificationRequest.handler
         events:
             - http:
-                  path: verifications/accept
+                  path: verifications/accept/{id}
                   method: PUT
                   cors: true
 
