@@ -4,20 +4,18 @@ const jwt = require("jsonwebtoken");
 
 exports.handler = async event => {
     try {
-        const isAdmin = (event.queryStringParameters.isAdmin == "true") || (event.queryStringParameters.isAdmin == "True");
-
         const authorization = event.headers && event.headers.Authorization;
 
         if (!authorization) return Responses._401({ message: 'Unauthorized' });
 
         const verification = jwt.verify(authorization, process.env.tokenSecret);
+        
+        if (!verification) return Responses._401({ message: 'Unauthorized' });
 
-        if (!verification || !isAdmin) return Responses._401({ message: 'Unauthorized' });
-
-        new_verifications = await Dynamo.queryDocumentsSkBegins("#VERIFICATION", "USER#");
-
-        return Responses._200({ success: true, users: new_verifications });
+        pending_verifications = await Dynamo.queryDocumentsSkBeginsAndOtherCondition("#VERIFICATION", "USER#", "verification_status", "PENDING");
+        return Responses._200({ success: true, pending_verifications: pending_verifications });
     } catch (error) {
-        return Responses._400({ message: 'Could not find user' });
+        console.log(error)
+        return Responses._400({ message: 'Could not get pending verifications' });
     }
 };
