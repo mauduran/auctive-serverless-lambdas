@@ -241,7 +241,14 @@ functions:
                   path: images-upload/
                   method: POST
                   cors: true
-                  
+  getOwnerAuctions:
+    handler: lambdas/endpoints/auctions/getOwnerAuctions.handler
+    events:
+      - http:
+            path: auctions/getAuctions/{id}
+            method: GET
+            cors: true
+                              
   createNotification:
         handler: lambdas/endpoints/notifications/createNotification.handler
         events:
