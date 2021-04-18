@@ -1,5 +1,5 @@
 
-service: auctive-serverless
+service: auctiveserverless
 
 frameworkVersion: '2'
 
@@ -18,6 +18,7 @@ provider:
       cloudSearchEndpoint: ${self:custom.cloudSearchEndpoint}
       dynamoStreamArn: ${self:custom.dynamoStreamArn}
       imageUploadBucket: ${self:custom.imageUploadBucket}
+      usersBucket: ${self:custom.usersBucket}
   iam:
     role:
       statements:
@@ -47,6 +48,7 @@ custom:
     cloudSearchEndpoint: x
     dynamoStreamArn: x
     imageUploadBucket: x
+
     webpack:
       webpackConfig: ./webpack.config.js
 
@@ -107,6 +109,13 @@ functions:
               method: GET
               cors: true
 
+  updateUserProfilePic:
+    handler: lambdas/endpoints/users/updateProfilePic.handler
+    events:
+        - http:
+              path: user/profile-pic
+              method: PUT
+              cors: true
   getUserAuctionSubscriptions:
     handler: lambdas/endpoints/users/getAuctionSubscriptions.handler
     events:
@@ -262,4 +271,9 @@ resources:
             Type: AWS::S3::Bucket
             Properties:
                 BucketName: ${self:custom.imageUploadBucket}
+                AccessControl: PublicRead
+        UsersBucket:
+            Type: AWS::S3::Bucket
+            Properties:
+                BucketName: ${self:custom.usersBucket}
                 AccessControl: PublicRead

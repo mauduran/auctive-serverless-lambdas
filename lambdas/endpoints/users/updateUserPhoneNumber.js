@@ -49,7 +49,7 @@ exports.handler = async event => {
         return Responses._200({ success: true, message: "Phone number changed!" });
     } catch (error) {
         console.log(error);
-        return Responses._400({ error: true, message: "Could not change password" });
+        return Responses._400({ error: true, message: "Could not change phone number" });
     }
 
 };
