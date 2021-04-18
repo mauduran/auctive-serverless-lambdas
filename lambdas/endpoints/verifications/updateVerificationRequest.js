@@ -22,7 +22,7 @@ const createNotification = async (email, auctionId, auctionTitle, message, emitt
 }
 
 
-const acceptPendingVerification = async (userEmail, status) => {
+const updateVerificationRequest = async (userEmail, status) => {
 
     params = {
         Key: {
@@ -38,10 +38,30 @@ const acceptPendingVerification = async (userEmail, status) => {
     return await Dynamo.updateDocument(params);
 }
 
+const updateUserVerification = async (email) => {
+
+    let params = {
+        Key: {
+            "PK": `USER#${email}`,
+            "SK": `#PROFILE#${email}`
+        },
+        UpdateExpression: "set is_verified = :is_verified",
+        ExpressionAttributeValues: {
+            ":is_verified": true,
+        },
+        IndexName: 'email-index',
+    }
+
+    return await Dynamo.updateDocument(params);
+}
+
 exports.handler = async event => {
     try {
-        const userEmail = event.queryStringParameters.userEmail;
-        const isAccepted = (event.queryStringParameters.isAccepted == "true") || (event.queryStringParameters.isAccepted == "True");
+        const userId = event.pathParameters && event.pathParameters.id;
+        
+        const body = JSON.parse(event.body);
+
+        const verificationStatus = body.verificationStatus;
 
         const authorization = event.headers && event.headers.Authorization;
 
@@ -49,18 +69,20 @@ exports.handler = async event => {
 
         const verification = jwt.verify(authorization, process.env.tokenSecret);
 
-        if (!verification || !userEmail || !isAccepted) return Responses._401({ message: 'Unauthorized' });
+        if (!verification || !userId) return Responses._401({ message: 'Unauthorized' });
 
-        status = isAccepted ? "OK" : "REJECTED";
-        message = isAccepted ? "Has sido verificado" : "Has sido rechazado";
+        status = verificationStatus ? "ACCEPTED" : "REJECTED";
+        message = verificationStatus ? "Tu solicitud de verificación ha sido aceptada" : "Tu solicitud de verificación ha sido denegada";
 
-        res_new = await acceptPendingVerification(userEmail, status);
+        request_verify = await updateVerificationRequest(userId, status);
 
-        await createNotification(verification.email, "",  "", message, "");
+        await createNotification(userId, "",  "", message, verification.email);
 
-        return Responses._200({ success: true, verification:  res_new});
+        if(verificationStatus) await updateUserVerification(userId);
+        
+        return Responses._200({ success: true, verification:  request_verify});
     } catch (error) {
         console.log(error);
-        return Responses._400({ message: 'Could not find user' });
+        return Responses._400({ message: 'Could not update verification request' });
     }
 };
