@@ -61,7 +61,7 @@ const Dynamo = {
     async queryDocumentsSkBeginsAndOtherCondition(pk, sk, condition, value) {
         const params = {
             KeyConditionExpression: `PK = :pk  and begins_with (SK, :sk)` ,
-            FilterExpression : `contains(${condition}, :condition_value)`,
+            FilterExpression : `${condition} = :condition_value)`,
             ExpressionAttributeValues: {
                 ":pk": pk,
                 ":sk": sk,

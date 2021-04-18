@@ -266,22 +266,6 @@ functions:
                   method: POST
                   cors: true
                               
-  getPendingVerifications:
-        handler: lambdas/endpoints/verifications/getPendingVerifications.handler
-        events:
-            - http:
-                  path: verifications
-                  method: GET
-                  cors: true
-                              
-  updateVerificationRequest:
-        handler: lambdas/endpoints/verifications/updateVerificationRequest.handler
-        events:
-            - http:
-                  path: verifications/accept/{id}
-                  method: PUT
-                  cors: true
-
   stream2cloudsearch:
     handler: lambdas/streams/stream2cloudsearch.handler
     events:
