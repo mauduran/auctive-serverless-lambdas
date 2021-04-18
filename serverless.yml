@@ -264,7 +264,14 @@ functions:
                   path: verifications
                   method: GET
                   cors: true
-
+                              
+  acceptPendingVerification:
+        handler: lambdas/endpoints/verifications/acceptVerificationRequest.handler
+        events:
+            - http:
+                  path: verifications/accept
+                  method: PUT
+                  cors: true
 
   stream2cloudsearch:
     handler: lambdas/streams/stream2cloudsearch.handler
