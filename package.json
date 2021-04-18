@@ -4,6 +4,7 @@
   "description": "",
   "main": "handler.js",
   "scripts": {
+    "deploy": "NODE_OPTIONS=--max_old_space_size=12288 sls deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mauricio Duran @mauduran, Edgar Medina @ipanchomx",

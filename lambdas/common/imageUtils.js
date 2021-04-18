@@ -15,7 +15,7 @@ const getImageRequest = (bucket, image, folder, imageName) => {
         throw new Error("mime types don't match");
     }
 
-    const key = `${auctionId}/${imageName}.${ext}`.replace('#', "_").replace(' ', "_");
+    const key = `${folder}/${imageName}.${ext}`.replace('#', "_").replace(' ', "_");
 
     return {
         Body: buffer,
