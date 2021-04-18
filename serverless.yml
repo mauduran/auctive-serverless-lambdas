@@ -256,6 +256,14 @@ functions:
                   path: notifications/create
                   method: POST
                   cors: true
+                              
+  getPendingVerifications:
+        handler: lambdas/endpoints/verifications/getPendingVerifications.handler
+        events:
+            - http:
+                  path: verifications
+                  method: GET
+                  cors: true
 
 
   stream2cloudsearch:
