@@ -48,7 +48,7 @@ custom:
     cloudSearchEndpoint: x
     dynamoStreamArn: x
     imageUploadBucket: x
-
+    usersBucket: x
     webpack:
       webpackConfig: ./webpack.config.js
 
@@ -163,6 +163,22 @@ functions:
               path: conversations/create
               method: POST
               cors: true
+
+  addMessageToConversation:
+    handler: lambdas/endpoints/conversations/addMessageToConversation.handler
+    events:
+        - http:
+              path: conversations/addMessage
+              method: POST
+              cors: true
+
+  createAuction:
+    handler: lambdas/endpoints/auctions/createAuction.handler
+    events:
+      - http:
+            path: auctions/
+            method: POST
+            cors: true
 
   searchAuctions:
     handler: lambdas/endpoints/auctions/getAuctions.handler
