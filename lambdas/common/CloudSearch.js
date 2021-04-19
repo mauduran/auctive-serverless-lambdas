@@ -41,7 +41,6 @@ const CloudSearch = {
     },
 
     async searchByIdList(idList) {
-        // (or category_id:3 category_id:62 category_id:919)
         let queries = idList.map(id=>`auction_id:${id}`).join(" ");
         params = {
             query: `(or ${queries})`,
