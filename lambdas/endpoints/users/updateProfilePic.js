@@ -1,11 +1,9 @@
 const jwt = require("jsonwebtoken");
-
 const Responses = require('../../common/API_Responses');
 const Dynamo = require('../../common/Dynamo');
 const S3 = require('../../common/S3');
 const allowedMimes = require('../../common/allowedMimes');
 const imageUtils = require('../../common/imageUtils');
-const jwt = require("jsonwebtoken");
 
 const addImageUrl = async (email, imgUrl) => {
 
