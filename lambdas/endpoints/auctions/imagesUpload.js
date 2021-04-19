@@ -22,7 +22,6 @@ exports.handler = async event => {
 
         body.images.map((image, idx) => {
             params = imageUtils.getImageRequest(process.env.imageUploadBucket, image, body.auctionId, idx);
-            // getImageRequest(image, body.auctionId, idx);
             urls.push(`https://${process.env.imageUploadBucket}.s3.amazonaws.com/${params.Key}`)
             return S3.upload(params);
         })
