@@ -1,5 +1,5 @@
 
-service: auctiveserverless
+service: auctive-serverless
 
 frameworkVersion: '2'
 
@@ -42,20 +42,14 @@ package:
     individually: true
 
 custom:
-    # tableName: x
-    # tokenSecret: x
-    # cloudSearchDocEndpoint: x
-    # cloudSearchEndpoint: x
-    # dynamoStreamArn: x
-    # imageUploadBucket: x
-    # usersBucket: x
-    tableName: auctive-table
-    tokenSecret: AYWOW_AMAZING!
-    cloudSearchDocEndpoint: doc-auctive-search-2hfh37w3idrm44ips6qft5mwzq.us-east-1.cloudsearch.amazonaws.com
-    cloudSearchEndpoint: search-auctive-search-2hfh37w3idrm44ips6qft5mwzq.us-east-1.cloudsearch.amazonaws.com
-    dynamoStreamArn: arn:aws:dynamodb:us-east-1:187673598599:table/auctive-table/stream/2021-04-02T21:32:52.441
-    imageUploadBucket: auctive-auction-images
-    usersBucket: auctive-user-images
+    tableName: x
+    tokenSecret: x
+    cloudSearchDocEndpoint: x
+    cloudSearchEndpoint: x
+    dynamoStreamArn: x
+    imageUploadBucket: x
+    usersBucket: x
+
 
     
 
@@ -266,6 +260,14 @@ functions:
       - http:
             path: scheduled-actions/
             method: GET
+            cors: true
+            private: true
+  scheduledAction:
+    handler: lambdas/endpoints/scheduled-actions/scheduleAction.handler
+    events:
+      - http:
+            path: scheduled-actions/
+            method: POST
             cors: true
             private: true
 
