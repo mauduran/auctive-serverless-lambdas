@@ -180,6 +180,22 @@ functions:
             method: POST
             cors: true
 
+  newBid:
+    handler: lambdas/endpoints/auctions/newBid.handler
+    events:
+      - http:
+            path: auctions/newBid
+            method: PUT
+            cors: true
+
+  buyNow:
+    handler: lambdas/endpoints/auctions/buyNow.handler
+    events:
+      - http:
+            path: auctions/buyNow
+            method: PUT
+            cors: true
+
   searchAuctions:
     handler: lambdas/endpoints/auctions/getAuctions.handler
     events:
