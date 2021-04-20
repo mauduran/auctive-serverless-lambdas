@@ -62,6 +62,7 @@ functions:
             path: users/
             method: POST
             cors: true
+            
   login:
     handler: lambdas/endpoints/users/userLogin.handler
     events:
@@ -92,6 +93,15 @@ functions:
               path: users
               method: GET
               cors: true
+              
+  getUsersByEmailList:
+    handler: lambdas/endpoints/users/getUsersByList.handler
+    events:
+        - http:
+              path: users/emailList
+              method: GET
+              cors: true
+
   enableNotifications:
     handler: lambdas/endpoints/users/enableNotifications.handler
     events:
@@ -99,6 +109,7 @@ functions:
               path: users/enable-notifications
               method: PUT
               cors: true
+
   getUser:
     handler: lambdas/endpoints/users/getUser.handler
     events:
@@ -118,6 +129,7 @@ functions:
               path: user/profile-pic
               method: PUT
               cors: true
+
   getUserAuctionSubscriptions:
     handler: lambdas/endpoints/users/getAuctionSubscriptions.handler
     events:
@@ -232,6 +244,7 @@ functions:
             path: auctions/list
             method: POST
             cors: true
+
   subscribeToAuction:
     handler: lambdas/endpoints/auctions/subscribeToAuction.handler
     events:
@@ -293,6 +306,25 @@ functions:
             cors: true
             private: true 
   
+<<<<<<< HEAD
+  imageUpload:
+        handler: lambdas/endpoints/auctions/imageUpload.handler
+        events:
+            - http:
+                  path: image-upload/
+                  method: POST
+                  cors: true
+
+  imagesUpload:
+        handler: lambdas/endpoints/auctions/imagesUpload.handler
+        events:
+            - http:
+                  path: images-upload/
+                  method: POST
+                  cors: true
+
+=======
+>>>>>>> 1b62770e741eaa7cb2de36a8621e323817334ffa
   getOwnerAuctions:
     handler: lambdas/endpoints/auctions/getOwnerAuctions.handler
     events:
