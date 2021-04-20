@@ -14,6 +14,7 @@ const createUser = async (name, email, password) => {
         sms_notifications_enabled: false,
         name: name,
         email: email,
+        object_type: "USER",
         is_admin: false,
         p_hash: hash,
     }
