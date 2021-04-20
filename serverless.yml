@@ -1,5 +1,5 @@
 
-service: auctiveserverless
+service: auctive-serverless
 
 frameworkVersion: '2'
 
@@ -49,6 +49,8 @@ custom:
     dynamoStreamArn: x
     imageUploadBucket: x
     usersBucket: x
+
+
     webpack:
       webpackConfig: ./webpack.config.js
 
@@ -199,6 +201,7 @@ functions:
             path: auctions/newBid
             method: PUT
             cors: true
+            private: true
 
   buyNow:
     handler: lambdas/endpoints/auctions/buyNow.handler
@@ -207,6 +210,16 @@ functions:
             path: auctions/buyNow
             method: PUT
             cors: true
+            private: true
+
+  closeAuction:
+    handler: lambdas/endpoints/auctions/closeAuction.handler
+    events:
+      - http:
+            path: auctions/close
+            method: POST
+            cors: true
+            private: true
 
   searchAuctions:
     handler: lambdas/endpoints/auctions/getAuctions.handler
@@ -239,6 +252,7 @@ functions:
             path: auctions/subscribe
             method: POST
             cors: true
+            private: true
             
   createCategory:
     handler: lambdas/endpoints/categories/createCategory.handler
@@ -247,6 +261,7 @@ functions:
             path: categories/
             method: POST
             cors: true
+            private: true
 
   getCategories:
     handler: lambdas/endpoints/categories/getCategories.handler
@@ -263,6 +278,7 @@ functions:
             path: categories/{id}
             method: DELETE
             cors: true
+            private: true
             
   getScheduledActions:
     handler: lambdas/endpoints/scheduled-actions/getScheduledActions.handler
@@ -270,6 +286,14 @@ functions:
       - http:
             path: scheduled-actions/
             method: GET
+            cors: true
+            private: true
+  scheduledAction:
+    handler: lambdas/endpoints/scheduled-actions/scheduleAction.handler
+    events:
+      - http:
+            path: scheduled-actions/
+            method: POST
             cors: true
             private: true
 
@@ -282,6 +306,7 @@ functions:
             cors: true
             private: true 
   
+<<<<<<< HEAD
   imageUpload:
         handler: lambdas/endpoints/auctions/imageUpload.handler
         events:
@@ -298,6 +323,8 @@ functions:
                   method: POST
                   cors: true
 
+=======
+>>>>>>> 1b62770e741eaa7cb2de36a8621e323817334ffa
   getOwnerAuctions:
     handler: lambdas/endpoints/auctions/getOwnerAuctions.handler
     events:

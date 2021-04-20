@@ -21,7 +21,7 @@ const createAuction = async (auctionId, email, buy_now_price, category, descript
         description : description,
         product_img_urls: product_img_urls,
         starting_price : starting_price,
-        status: "OPEN",
+        auction_status: "OPEN",
         tags : tags,
         title : title,
         start_date : start_date.toISOString(),
@@ -30,7 +30,8 @@ const createAuction = async (auctionId, email, buy_now_price, category, descript
         current_price : -1
     }
 
-    return Dynamo.writeIfNotExists(auction, 'PK');
+    await Dynamo.writeIfNotExists(auction, 'PK');
+    return auction;
 }
 
 
@@ -69,10 +70,9 @@ exports.handler = async event => {
 
         await Promise.all(uploadRequests);
 
-
-        await createAuction(auctionId, email, buy_now_price, category, description, urls, starting_price, tags, title, duration);
+        const auction = await createAuction(auctionId, email, buy_now_price, category, description, urls, starting_price, tags, title, duration);
         
-        return Responses._201({ success: true, message: "Auction succesfully created!"});
+        return Responses._201({ success: true, message: "Auction succesfully created!", auction: auction});
     } catch (error) {
         console.log(error);
         return Responses._400({ error: true, message: "Could not create auction!" });

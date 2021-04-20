@@ -23,7 +23,7 @@ const createAuctionCsRequest = (id, record, operation) => {
             category: record.category.S,
             product_img_urls: record.product_img_urls && record.product_img_urls.L.map(url => url.S) || [],
             start_date: record.start_date.S,
-            status: record.status.S,
+            status: record.auction_status && record.auction_status.S  || record.status && record.status.S,
             current_price: record.current_price && record.current_price.N
         };
 

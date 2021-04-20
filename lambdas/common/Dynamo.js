@@ -30,7 +30,7 @@ const Dynamo = {
         params = {
             ...params,
             TableName: process.env.tableName,
-            ReturnValues: "UPDATED_NEW"
+            ReturnValues: "ALL_NEW"
         }
         return dynamoDB.update(params).promise()
     },
