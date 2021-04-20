@@ -8,11 +8,8 @@ const  buyNow = async (auctionId, auctionOwnerEmail, bidderEmail) => {
             "PK": `AUCTION#${auctionId}`,
             "SK": `#AUCTION_USER#${auctionOwnerEmail}`,
         },
-        ConditionExpression: "#auction_status = :open",
-        UpdateExpression: "SET current_bidder = :bidderEmail, bid_winner = :bidderEmail, #auction_status = :closed, current_price = buy_now_price",
-        ExpressionAttributeNames: {
-            "#auction_status": "status"
-        },
+        ConditionExpression: "auction_status = :open",
+        UpdateExpression: "SET current_bidder = :bidderEmail, bid_winner = :bidderEmail, auction_status  = :closed, current_price = buy_now_price",
         ExpressionAttributeValues: {
              ":bidderEmail" : bidderEmail,
              ":open" : "OPEN",
