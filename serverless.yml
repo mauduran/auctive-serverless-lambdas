@@ -305,6 +305,14 @@ functions:
             method: POST
             cors: true
             private: true 
+
+  sendMultipleSMS:
+    handler: lambdas/endpoints/sms/sendMultipleSMS.handler
+    events:
+      - http:
+            path: send-multiple-sms/
+            method: POST
+            cors: true
   
   getOwnerAuctions:
     handler: lambdas/endpoints/auctions/getOwnerAuctions.handler
