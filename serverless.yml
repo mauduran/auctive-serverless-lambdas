@@ -306,25 +306,6 @@ functions:
             cors: true
             private: true 
   
-<<<<<<< HEAD
-  imageUpload:
-        handler: lambdas/endpoints/auctions/imageUpload.handler
-        events:
-            - http:
-                  path: image-upload/
-                  method: POST
-                  cors: true
-
-  imagesUpload:
-        handler: lambdas/endpoints/auctions/imagesUpload.handler
-        events:
-            - http:
-                  path: images-upload/
-                  method: POST
-                  cors: true
-
-=======
->>>>>>> 1b62770e741eaa7cb2de36a8621e323817334ffa
   getOwnerAuctions:
     handler: lambdas/endpoints/auctions/getOwnerAuctions.handler
     events:
