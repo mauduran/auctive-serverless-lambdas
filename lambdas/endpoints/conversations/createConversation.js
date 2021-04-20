@@ -12,6 +12,7 @@ const createConversation = async (auctionId, bidderEmail, auctionOwnerEmail) => 
         PK: `AUCTION#${auctionId}`,
         SK: `#CONVERSATION#${conversationId}`,
         auctionId: auctionId,
+        conversation_id: conversationId,
         bidder_email: bidderEmail,
         last_message_date: new Date().toISOString(),
         last_message_sender: "",
@@ -19,7 +20,8 @@ const createConversation = async (auctionId, bidderEmail, auctionOwnerEmail) => 
         seller_email: auctionOwnerEmail,
     }
 
-    return Dynamo.writeIfNotExists(conversation, 'PK');
+    await Dynamo.writeIfNotExists(conversation, 'PK');
+    return conversation;
 }
 
 const createNotification = async (email, auctionId, auctionTitle, message, emitter) => {
@@ -55,10 +57,9 @@ exports.handler = async event => {
     const bidder_email = verification.email;
 
     try {
-        await createConversation(auctionId, bidder_email, auctionOwnerEmail);
+        const conversation = await createConversation(auctionId, bidder_email, auctionOwnerEmail);
         await createNotification(auctionOwnerEmail, auctionId,  auctionTitle, "Alguien ha pujado", bidder_email);
-        // TODO: socket message to Owner (Socket)
-        return Responses._200({ success: true, message: "Conversation created!"});
+        return Responses._200({ success: true, message: "Conversation created!", conversation});
     } catch (error) {
         console.log(error);
         return Responses._400({ error: true, message: "Could not create conversation" });

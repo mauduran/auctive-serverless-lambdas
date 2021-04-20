@@ -18,7 +18,9 @@ const createMessage = async (conversationId, messageBody, senderEmail, senderNam
         sender_name: senderName,
     }
 
-    return Dynamo.writeIfNotExists(conversation, 'PK');
+    await Dynamo.writeIfNotExists(conversation, 'PK');
+
+    return conversation;
 }
 
 const updateConversation = async (auctionId, conversationId, message_sender, messageBody, dateMessage) => {
@@ -44,23 +46,30 @@ exports.handler = async event => {
 
     const authorization = event.headers && event.headers.Authorization;
     const verification = jwt.verify(authorization, process.env.tokenSecret);
-    
+
     if (!verification) return Responses._401({ message: 'Unauthorized' });
 
     const { conversationId, messageBody, senderName, auctionId } = body;
 
     const senderEmail = verification.email;
 
-    if (!conversationId ||  !messageBody || !senderEmail || !senderName || !auctionId) return Responses._400({ error: true,
-        message: "Missing required fields"})
+    if (!conversationId || !messageBody || !senderEmail || !senderName || !auctionId) return Responses._400({
+        error: true,
+        message: "Missing required fields"
+    })
 
-        
+
     const dateMessage = new Date().toISOString();
 
     try {
-        await createMessage(conversationId, messageBody, senderEmail, senderName, dateMessage);
+        const msg = await createMessage(conversationId, messageBody, senderEmail, senderName, dateMessage);
         conversation = await updateConversation(auctionId, conversationId, senderEmail, messageBody, dateMessage);
-        return Responses._200({ success: true, message: "Message added to conversation!", conversation_updated: conversation});
+        return Responses._200({
+            success: true,
+            message: "Message added to conversation!",
+            messageContent: msg,
+            conversation_updated: conversation
+        });
     } catch (error) {
         console.log(error);
         return Responses._400({ error: true, message: "Could not add message!" });
