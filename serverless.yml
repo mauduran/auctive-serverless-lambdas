@@ -51,8 +51,6 @@ custom:
     usersBucket: x
 
 
-    
-
     webpack:
       webpackConfig: ./webpack.config.js
 
@@ -191,6 +189,7 @@ functions:
             path: auctions/newBid
             method: PUT
             cors: true
+            private: true
 
   buyNow:
     handler: lambdas/endpoints/auctions/buyNow.handler
@@ -199,6 +198,16 @@ functions:
             path: auctions/buyNow
             method: PUT
             cors: true
+            private: true
+
+  closeAuction:
+    handler: lambdas/endpoints/auctions/closeAuction.handler
+    events:
+      - http:
+            path: auctions/close
+            method: POST
+            cors: true
+            private: true
 
   searchAuctions:
     handler: lambdas/endpoints/auctions/getAuctions.handler
@@ -207,6 +216,7 @@ functions:
             path: auctions/
             method: GET
             cors: true
+
   getInterestedUsers:
     handler: lambdas/endpoints/auctions/getUsersInterested.handler
     events:
@@ -229,6 +239,7 @@ functions:
             path: auctions/subscribe
             method: POST
             cors: true
+            private: true
             
   createCategory:
     handler: lambdas/endpoints/categories/createCategory.handler
@@ -237,6 +248,7 @@ functions:
             path: categories/
             method: POST
             cors: true
+            private: true
 
   getCategories:
     handler: lambdas/endpoints/categories/getCategories.handler
@@ -253,6 +265,7 @@ functions:
             path: categories/{id}
             method: DELETE
             cors: true
+            private: true
             
   getScheduledActions:
     handler: lambdas/endpoints/scheduled-actions/getScheduledActions.handler
@@ -280,20 +293,6 @@ functions:
             cors: true
             private: true 
   
-  imageUpload:
-        handler: lambdas/endpoints/auctions/imageUpload.handler
-        events:
-            - http:
-                  path: image-upload/
-                  method: POST
-                  cors: true
-  imagesUpload:
-        handler: lambdas/endpoints/auctions/imagesUpload.handler
-        events:
-            - http:
-                  path: images-upload/
-                  method: POST
-                  cors: true
   getOwnerAuctions:
     handler: lambdas/endpoints/auctions/getOwnerAuctions.handler
     events:

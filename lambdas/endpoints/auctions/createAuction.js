@@ -21,7 +21,7 @@ const createAuction = async (auctionId, email, buy_now_price, category, descript
         description : description,
         product_img_urls: product_img_urls,
         starting_price : starting_price,
-        status: "OPEN",
+        auction_status: "OPEN",
         tags : tags,
         title : title,
         start_date : start_date.toISOString(),
@@ -69,7 +69,7 @@ exports.handler = async event => {
         })
 
         await Promise.all(uploadRequests);
-        
+
         const auction = await createAuction(auctionId, email, buy_now_price, category, description, urls, starting_price, tags, title, duration);
         
         return Responses._201({ success: true, message: "Auction succesfully created!", auction: auction});
