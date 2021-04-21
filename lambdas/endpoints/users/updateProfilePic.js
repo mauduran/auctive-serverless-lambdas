@@ -23,7 +23,6 @@ const addImageUrl = async (email, imgUrl) => {
 }
 
 exports.handler = async event => {
-    console.log(event.body);
     const body = JSON.parse(event.body);
 
     const authorization = event.headers && event.headers.Authorization;
