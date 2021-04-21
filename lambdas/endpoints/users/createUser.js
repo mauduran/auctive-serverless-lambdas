@@ -11,7 +11,7 @@ const createUser = async (name, email, password) => {
         SK: `#PROFILE#${email}`,
         joined: new Date().toISOString(),
         is_verified: false,
-        sms_notifications_enabled: false,
+        notifications_enabled: false,
         name: name,
         email: email,
         object_type: "USER",
