@@ -35,8 +35,13 @@ exports.handler = async event => {
     try {
         const user = await findUserByEmail(email);
         await verifyCredentials(user.p_hash, password);
+        const token = jwt.sign({
+            email,
+            is_admin: user.is_admin
+        }, process.env.tokenSecret);
         return Responses._201({ success: true, token: token });
     } catch (error) {
+        console.log(error);
         return Responses._400({ error: true, message: "Could not login" });
     }
 };
