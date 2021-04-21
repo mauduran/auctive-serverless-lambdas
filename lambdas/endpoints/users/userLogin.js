@@ -25,27 +25,6 @@ const verifyCredentials = async (hash, password) => {
     }
 }
 
-const signToken = async (email, is_admin=false) => {
-    const token = jwt.sign({
-        email,
-        is_admin
-    }, process.env.tokenSecret);
-
-    params = {
-        Key: {
-            "PK": `USER#${email}`,
-            "SK": `#PROFILE#${email}`
-        },
-        UpdateExpression: "set session_token = :session_token",
-        ExpressionAttributeValues: {
-            ":session_token": token,
-        },
-    }
-    const res = await Dynamo.updateDocument(params);
-    console.log(res);
-    return token;
-}
-
 exports.handler = async event => {
     const body = JSON.parse(event.body);
     if (!body || !body.email || !body.password) {
@@ -56,7 +35,6 @@ exports.handler = async event => {
     try {
         const user = await findUserByEmail(email);
         await verifyCredentials(user.p_hash, password);
-        const token = await signToken(email, user.is_admin);
         return Responses._201({ success: true, token: token });
     } catch (error) {
         return Responses._400({ error: true, message: "Could not login" });
