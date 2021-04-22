@@ -26,7 +26,6 @@ const parseAuction = (auction) => {
 }
 
 exports.handler = async event => {
-    console.log(event);
     const query = event.queryStringParameters && event.queryStringParameters.q || '';
     
     const category = event.queryStringParameters && event.queryStringParameters.category;
