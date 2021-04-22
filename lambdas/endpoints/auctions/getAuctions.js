@@ -20,7 +20,7 @@ const parseAuction = (auction) => {
         starting_price: auction.starting_price[0],
         status: auction.status[0],
         tags: auction.tags,
-        current_bid: auction.current_bid && auction.current_bid.length && auction.current_bid[0],
+        current_price: auction.current_price && auction.current_price.length && auction.current_price[0],
         current_bidder: auction.current_bidder && auction.current_bidder.length && auction.current_bidder[0],
     }
 }

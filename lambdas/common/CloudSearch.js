@@ -31,7 +31,7 @@ const CloudSearch = {
 
     async searchAuctionsByCategory(category, query) {
         params = {
-            query: `status:"OPEN" AND category:"${category}", ${query}`,
+            query: `status:"OPEN" AND category:"${category}", ${query} `,
             queryParser: "lucene",
             size: 20
         }
