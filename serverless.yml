@@ -316,7 +316,7 @@ functions:
     handler: lambdas/endpoints/auctions/getOwnerAuctions.handler
     events:
       - http:
-            path: auctions/getAuctions
+            path: auctions/get-my-auctions
             method: GET
             cors: true
                               
