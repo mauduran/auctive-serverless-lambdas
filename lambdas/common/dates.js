@@ -18,6 +18,13 @@ const getTodayString = () => {
     return `${day}/${month}/${date.getFullYear()}`;
 }
 
+const getDateString = (isoDate) => {
+    const date = new Date(isoDate);
+    const day = ('0'+date.getDate()).slice(-2);
+    const month = ('0'+(date.getMonth()+1)).slice(-2);
+    return `${day}/${month}/${date.getFullYear()}`;
+}
+
 const addHours = (date, hours) => {
         let newDate = date
         newDate.setHours(date.getHours()+hours);
@@ -28,5 +35,6 @@ module.exports = {
     isToday,
     getTodayDate,
     getTodayString,
-    addHours
+    addHours,
+    getDateString
 }
