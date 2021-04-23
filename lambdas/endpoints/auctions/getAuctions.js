@@ -30,14 +30,25 @@ exports.handler = async event => {
     const query = event.queryStringParameters && event.queryStringParameters.q || '';
     
     const category = event.queryStringParameters && event.queryStringParameters.category;
+
+    const starting_price = event.queryStringParameters && event.queryStringParameters.starting_price;
+
+    const last_price = event.queryStringParameters && event.queryStringParameters.last_price;
+
+    const priceMax = last_price || 1000000;
+    
+    const priceMin = starting_price || 0;
     try {
         let items = [];
-        if (category) {
+        if (category && (last_price == undefined && starting_price == undefined)) {
             items = await CloudSearch.searchAuctionsByCategory(category, query);
+        } else if (category == undefined && (last_price != undefined || starting_price != undefined)) {
+            items = await CloudSearch.searchAuctionsByPrice(priceMin, priceMax, query);
+        } else if (category != undefined && (last_price != undefined || starting_price != undefined)) {
+            items = await CloudSearch.searchAuctionsByPriceAndCategory(priceMin, priceMax, category, query);
         } else {
             items = await CloudSearch.searchAuctions(query);
         }
-
         items = items.map(auction => parseAuction(auction));
         return Responses._200({ success: true, auctions: items });
     } catch (error) {
