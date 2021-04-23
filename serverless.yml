@@ -49,8 +49,6 @@ custom:
     dynamoStreamArn: x
     imageUploadBucket: x
     usersBucket: x
-
-
     webpack:
       webpackConfig: ./webpack.config.js
 
@@ -318,7 +316,7 @@ functions:
     handler: lambdas/endpoints/auctions/getOwnerAuctions.handler
     events:
       - http:
-            path: auctions/getAuctions/{id}
+            path: auctions/getAuctions
             method: GET
             cors: true
                               

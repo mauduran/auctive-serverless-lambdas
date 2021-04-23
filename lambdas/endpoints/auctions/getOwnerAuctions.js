@@ -30,12 +30,9 @@ exports.handler = async event => {
 
         if (!verification) return Responses._401({ message: 'Unauthorized' });
 
-        const email = verification.email;
-        const userId = event.pathParameters && event.pathParameters.id;
+        const userEmail = verification.email;
 
-        if (!userId) return Responses._401({ error: true, message: 'Missing user id' });
-
-        let ownerAuctions = await getOwnerAuctionsById(userId, email);
+        let ownerAuctions = await getOwnerAuctionsById(userEmail);
         return Responses._200({ success: true, auctions: ownerAuctions });
     } catch (error) {
         console.log(error);
