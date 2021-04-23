@@ -42,15 +42,17 @@ package:
     individually: true
 
 custom:
-    tableName: x
-    tokenSecret: x
-    cloudSearchDocEndpoint: x
-    cloudSearchEndpoint: x
-    dynamoStreamArn: x
-    imageUploadBucket: x
-    usersBucket: x
-    webpack:
-      webpackConfig: ./webpack.config.js
+  tableName: x
+  tokenSecret: x
+  cloudSearchDocEndpoint: x
+  cloudSearchEndpoint: x
+  dynamoStreamArn: x
+  imageUploadBucket: x
+  usersBucket: x
+
+
+  webpack:
+    webpackConfig: ./webpack.config.js
 
 functions:
   createUser:

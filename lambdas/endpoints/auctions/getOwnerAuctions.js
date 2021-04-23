@@ -19,7 +19,7 @@ const getOwnerAuctionsById = async (userEmail) => {
     if (items.length && (items[0].owner_email == userEmail)) {
         return items;
     }
-    throw "Could not find owner auctions";
+    return [];
 
 }
 
