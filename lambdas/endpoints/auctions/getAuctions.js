@@ -35,8 +35,8 @@ exports.handler = async event => {
 
     const last_price = event.queryStringParameters && event.queryStringParameters.last_price;
 
-    const priceMax = last_price || 1000000;
-    
+    const priceMax = last_price || Number.MAX_SAFE_INTEGER;
+
     const priceMin = starting_price || 0;
     try {
         let items = [];
