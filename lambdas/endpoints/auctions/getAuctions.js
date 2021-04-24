@@ -5,7 +5,7 @@ const parseAuction = (auction) => {
     let auction_id = auction.id;
 
     auction_id = auction_id.split('#');
-    auction_id = auction_id[auction_id.length-1];
+    auction_id = auction_id[auction_id.length - 1];
     auction = auction.fields;
     return {
         auction_id, auction_id,
@@ -27,29 +27,26 @@ const parseAuction = (auction) => {
 }
 
 exports.handler = async event => {
-    const query = event.queryStringParameters && event.queryStringParameters.q || '';
+
+    let { q, category, minPrice, maxPrice } = event.queryStringParameters;
+
+    const query = q || '';
+
     
-    const category = event.queryStringParameters && event.queryStringParameters.category;
-
-    const starting_price = event.queryStringParameters && event.queryStringParameters.starting_price;
-
-    const last_price = event.queryStringParameters && event.queryStringParameters.last_price;
-
-    const priceMax = last_price || Number.MAX_SAFE_INTEGER;
-
-    const priceMin = starting_price || 0;
     try {
         let items = [];
-        if (category && (last_price == undefined && starting_price == undefined)) {
-            items = await CloudSearch.searchAuctionsByCategory(category, query);
-        } else if (category == undefined && (last_price != undefined || starting_price != undefined)) {
-            items = await CloudSearch.searchAuctionsByPrice(priceMin, priceMax, query);
-        } else if (category != undefined && (last_price != undefined || starting_price != undefined)) {
-            items = await CloudSearch.searchAuctionsByPriceAndCategory(priceMin, priceMax, category, query);
+        
+        if (category || maxPrice || minPrice){
+            maxPrice = maxPrice || '*';
+            minPrice = minPrice || '*';
+            items = await CloudSearch.searchAuctionsByFilter(query, category, minPrice, maxPrice);
         } else {
             items = await CloudSearch.searchAuctions(query);
         }
-        items = items.map(auction => parseAuction(auction));
+
+        items = items.map(auction => {
+            return parseAuction(auction);
+        });
         return Responses._200({ success: true, auctions: items });
     } catch (error) {
         console.log(error);

@@ -33,29 +33,54 @@ const CloudSearch = {
         params = {
             query: `status:"OPEN" AND category:"${category}", ${query} `,
             queryParser: "lucene",
-            size: 20
+
         }
 
         return CloudSearchRead.search(params).promise()
             .then(result => result.hits.hit);
     },
 
-    async searchAuctionsByPrice(starting_price, last_price, query) {
+    async searchAuctionsByPrice(minPrice, maxPrice, query) {
         params = {
-            query: `status:"OPEN" AND (buy_now_price:[${starting_price} TO ${last_price}]), ${query} `,
+            query: `status:"OPEN" AND (buy_now_price:[${minPrice} TO ${maxPrice}]), ${query} `,
             queryParser: "lucene",
-            size: 20
+
         }
 
         return CloudSearchRead.search(params).promise()
             .then(result => result.hits.hit);
     },
+    async searchAuctionsByFilter(query, category, minPrice, maxPrice) {
 
-    async searchAuctionsByPriceAndCategory(starting_price, last_price, category, query) {
+        let q = 'status:"OPEN"';
+
+        if(category) q +=  ` AND category:"${category}"`;
+        if(minPrice || maxPrice) q +=  ` AND ((current_price: [* TO -1]  AND starting_price: [${minPrice} TO ${maxPrice}]) OR (current_price: [${minPrice!='*'?minPrice:0} TO ${maxPrice}]))`;
+
+        q += `, ${query}`;
+
+        console.log(q);
         params = {
-            query: `status:"OPEN" AND category:"${category}" AND (buy_now_price:[${starting_price} TO ${last_price}]), ${query} `,
+            query: q,
             queryParser: "lucene",
-            size: 20
+        }
+
+        return CloudSearchRead.search(params).promise()
+            .then(result => result.hits.hit);
+    },
+    async searchAuctionsByPrice(minPrice, maxPrice, query) {
+        params = {
+            query: `status:"OPEN" AND (buy_now_price:[${minPrice} TO ${maxPrice}]), ${query} `,
+            queryParser: "lucene",
+        }
+        return CloudSearchRead.search(params).promise()
+            .then(result => result.hits.hit);
+    },
+
+    async searchAuctionsByPriceAndCategory(minPrice, maxPrice, category, query) {
+        params = {
+            query: `status:"OPEN" AND category:"${category}" AND (buy_now_price:[${minPrice} TO ${maxPrice}]), ${query} `,
+            queryParser: "lucene",
         }
 
         return CloudSearchRead.search(params).promise()
@@ -76,14 +101,12 @@ const CloudSearch = {
     async searchAuctions(query) {
         params = {
             query: `status:"OPEN", ${query}`,
-            size: 20,
             queryParser: "lucene",
         }
         return CloudSearchRead.search(params).promise()
             .then(result => result.hits.hit);
     }
 }
-
 
 
 
