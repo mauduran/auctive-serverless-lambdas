@@ -59,7 +59,6 @@ const CloudSearch = {
 
         q += `, ${query}`;
 
-        console.log(q);
         params = {
             query: q,
             queryParser: "lucene",
