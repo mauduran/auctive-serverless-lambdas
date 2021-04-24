@@ -8,7 +8,7 @@ exports.handler = async event => {
 
     try {
         const params = {
-            KeyConditionExpression: "PK = :pk  and begins_with (SK, :sk)",
+            KeyConditionExpression: "SK = :sk  and begins_with (PK, :pk)",
             ExpressionAttributeValues: {
                 ":pk": "SCHEDULED_ACTION#",
                 ":sk": `#DATE#${date}`

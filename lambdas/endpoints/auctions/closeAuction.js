@@ -38,8 +38,8 @@ const closeScheduledAuction = async (date, auctionId) => {
     const endDate = dateUtils.getDateString(date);
     const params = {
         Key: {
-            "PK": `SCHEDULED_ACTION#`,
-            "SK": `#DATE#${endDate}#AUCTION#${auctionId}`,
+            "PK": `SCHEDULED_ACTION#${auctionId}`,
+            "SK": `#DATE#${endDate}`,
         },
         UpdateExpression: "SET pending = :status",
         ExpressionAttributeValues: {
