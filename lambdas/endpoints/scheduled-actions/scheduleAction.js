@@ -7,7 +7,7 @@ const createScheduledAction = async (auctionId, endDate, auctionOwnerEmail) => {
     let date = getTodayString();
 
     let scheduledAction = {
-        PK: `SCHEDULED_AUCTION#${auctionId}`,
+        PK: `SCHEDULED_ACTION#${auctionId}`,
         SK: `#DATE#${date}`,
         date: endDate,
         auction_id:auctionId,
