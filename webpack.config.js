@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
     target: 'node',
-    mode: 'none',
+    mode: 'production',
     entry: slsw.lib.entries,
     output: {
         libraryTarget: 'commonjs',
