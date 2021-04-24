@@ -253,6 +253,14 @@ functions:
             method: POST
             cors: true
             private: true
+
+  deleteInterestedUser:
+    handler: lambdas/endpoints/auctions/deleteInterestedUser.handler
+    events:
+      - http:
+            path: auctions/deleteInterestedUser/{auctionId}
+            method: DELETE
+            cors: true
             
   createCategory:
     handler: lambdas/endpoints/categories/createCategory.handler
