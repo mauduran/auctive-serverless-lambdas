@@ -51,7 +51,6 @@ custom:
   usersBucket: x
 
 
-
   webpack:
     webpackConfig: ./webpack.config.js
 
@@ -313,6 +312,14 @@ functions:
             method: GET
             cors: true
 
+  updateCategory:
+    handler: lambdas/endpoints/categories/updateCategoryById.handler
+    events:
+      - http:
+            path: categories/{id}
+            method: PUT
+            cors: true
+
   deleteCategoryById:
     handler: lambdas/endpoints/categories/deleteCategoryById.handler
     events:
@@ -320,7 +327,6 @@ functions:
             path: categories/{id}
             method: DELETE
             cors: true
-            private: true
             
   getScheduledActions:
     handler: lambdas/endpoints/scheduled-actions/getScheduledActions.handler
