@@ -14,7 +14,7 @@ exports.handler = async event => {
 
     try {
         await Dynamo.deleteDocumentByKey('CATEGORY', `#CATEGORY#${categoryId}`);
-        return Responses._201({ success: true, message: "Removed category" });
+        return Responses._200({ success: true, message: "Removed category" });
     } catch (error) {
         console.log(error);
         return Responses._400({ error: true, message: 'Could not delete category' });
