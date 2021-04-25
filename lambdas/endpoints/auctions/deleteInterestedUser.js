@@ -14,7 +14,7 @@ exports.handler = async event => {
 
     const userEmail = verification.email;
     try {
-        await Dynamo.deleteDocumentByKey(`AUCTION#${auctionId}`, `USER#${userEmail}`);
+        await Dynamo.deleteDocumentByKey(`AUCTION#${auctionId}`, `#INTERESTED_USER#${userEmail}`);
         return Responses._201({ success: true, message: "Removed user" });
     } catch (error) {
         console.log(error);
