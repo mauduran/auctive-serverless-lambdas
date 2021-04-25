@@ -7,20 +7,19 @@ exports.handler = async event => {
 
         const params = event.pathParameters;
 
-        const {auctionId, userEmail} = params;
+        const { auctionId } = params;
 
-        if(!auctionId || !userEmail) return Responses._400({ error: true, message: "Missing fields" });
+        if (!auctionId) return Responses._400({ error: true, message: "Missing fields" });
 
-        const key = {
-            PK: `AUCTION#${auctionId}`,
-            SK: `#AUCTION_USER#${userEmail}`
+        let auctions = await Dynamo.queryDocumentsSkBegins(`AUCTION#${auctionId}`,'#AUCTION_USER#');
+
+        if(auctions.length) {
+            return Responses._200({ success: true, auction: auctions[0] });
         }
 
-        const auction = await Dynamo.findDocumentByKey(key);
-
-        return Responses._200({ success: true, auction });
+        return Responses._404({ error: true, message: "Could not find auction" })
     } catch (error) {
         console.log(error);
-        return Responses._400({ error: true, message: "Could not get auction" })
+        return Responses._400({ error: true, message: "Could not get auction" });
     }
 };

@@ -9,6 +9,7 @@ exports.handler = async event => {
     try {
         const params = {
             KeyConditionExpression: "SK = :sk  and begins_with (PK, :pk)",
+            IndexName: 'reverse-index',
             ExpressionAttributeValues: {
                 ":pk": "SCHEDULED_ACTION#",
                 ":sk": `#DATE#${date}`
@@ -18,6 +19,7 @@ exports.handler = async event => {
 
         return Responses._200({ success: true, items: items });
     } catch (error) {
-        return Responses._400({error:true, message: "Could not get scheduled items."})
+        console.log(error);
+        return Responses._400({ error: true, message: "Could not get scheduled items." })
     }
 };

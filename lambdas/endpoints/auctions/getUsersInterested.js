@@ -7,9 +7,9 @@ const getUsers = async (auctionId) => {
 
 exports.handler = async event => {
     try {
-        const conversationId = event.pathParameters && event.pathParameters.id;
-        if (!conversationId) return Responses._401({ error: true, message: 'Missing conversation id' });
-        users = await getUsers(conversationId);
+        const auctionId = event.pathParameters && event.pathParameters.auctionId;
+        if (!auctionId) return Responses._401({ error: true, message: 'Missing conversation id' });
+        users = await getUsers(auctionId);
         return Responses._200({ success: true, users: users });
     } catch (error) {
         console.log(error);
