@@ -70,6 +70,14 @@ functions:
             path: users/login
             method: POST
             cors: true
+            
+  adminLogin:
+    handler: lambdas/endpoints/users/adminLogin.handler
+    events:
+      - http:
+            path: users/admin/login
+            method: POST
+            cors: true
 
   change-password:
     handler: lambdas/endpoints/users/changePassword.handler
@@ -269,7 +277,6 @@ functions:
             path: categories/
             method: POST
             cors: true
-            private: true
 
   getCategories:
     handler: lambdas/endpoints/categories/getCategories.handler
