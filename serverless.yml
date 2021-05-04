@@ -62,12 +62,28 @@ functions:
             path: users/
             method: POST
             cors: true
+
+  findUsers:
+    handler: lambdas/endpoints/users/findUsers.handler
+    events:
+        - http:
+              path: users/
+              method: GET
+              cors: true
             
   login:
     handler: lambdas/endpoints/users/userLogin.handler
     events:
       - http:
             path: users/login
+            method: POST
+            cors: true
+            
+  adminLogin:
+    handler: lambdas/endpoints/users/adminLogin.handler
+    events:
+      - http:
+            path: users/admin/login
             method: POST
             cors: true
 
@@ -86,13 +102,6 @@ functions:
                   path: users/update-phone
                   method: PUT
                   cors: true
-  findUsers:
-    handler: lambdas/endpoints/users/findUsers.handler
-    events:
-        - http:
-              path: users
-              method: GET
-              cors: true
               
   getUsersByEmailList:
     handler: lambdas/endpoints/users/getUsersByList.handler
@@ -110,18 +119,6 @@ functions:
               method: PUT
               cors: true
 
-  getUser:
-    handler: lambdas/endpoints/users/getUser.handler
-    events:
-        - http:
-              path: users/user
-              method: GET
-              cors: true
-        - http:
-              path: users/{email}
-              method: GET
-              cors: true
-
   updateUserProfilePic:
     handler: lambdas/endpoints/users/updateProfilePic.handler
     events:
@@ -137,6 +134,26 @@ functions:
               path: user/auctions
               method: GET
               cors: true
+
+  getUser:
+    handler: lambdas/endpoints/users/getUser.handler
+    events:
+        - http:
+              path: users/user
+              method: GET
+              cors: true
+        - http:
+              path: users/{email}
+              method: GET
+              cors: true
+
+  createNotification:
+        handler: lambdas/endpoints/notifications/createNotification.handler
+        events:
+            - http:
+                  path: notifications/create
+                  method: POST
+                  cors: true
 
   getUserNotifications:
     handler: lambdas/endpoints/notifications/getNotifications.handler
@@ -186,6 +203,14 @@ functions:
               method: POST
               cors: true
 
+  searchAuctions:
+    handler: lambdas/endpoints/auctions/getAuctions.handler
+    events:
+      - http:
+            path: auctions/
+            method: GET
+            cors: true
+
   createAuction:
     handler: lambdas/endpoints/auctions/createAuction.handler
     events:
@@ -194,11 +219,19 @@ functions:
             method: POST
             cors: true
 
+  getOwnerAuctions:
+    handler: lambdas/endpoints/auctions/getOwnerAuctions.handler
+    events:
+      - http:
+            path: auctions/get-my-auctions
+            method: GET
+            cors: true
+            
   newBid:
     handler: lambdas/endpoints/auctions/newBid.handler
     events:
       - http:
-            path: auctions/newBid
+            path: auctions/new-bid
             method: PUT
             cors: true
             private: true
@@ -207,7 +240,7 @@ functions:
     handler: lambdas/endpoints/auctions/buyNow.handler
     events:
       - http:
-            path: auctions/buyNow
+            path: auctions/buy-now
             method: PUT
             cors: true
             private: true
@@ -221,22 +254,6 @@ functions:
             cors: true
             private: true
 
-  searchAuctions:
-    handler: lambdas/endpoints/auctions/getAuctions.handler
-    events:
-      - http:
-            path: auctions/
-            method: GET
-            cors: true
-
-  getInterestedUsers:
-    handler: lambdas/endpoints/auctions/getUsersInterested.handler
-    events:
-      - http:
-            path: auctions/{id}/interested
-            method: GET
-            cors: true
-            
   getAuctionsFromList:
     handler: lambdas/endpoints/auctions/getAuctionsFromList.handler
     events:
@@ -253,6 +270,31 @@ functions:
             method: POST
             cors: true
             private: true
+
+  deleteInterestedUser:
+    handler: lambdas/endpoints/auctions/deleteInterestedUser.handler
+    events:
+      - http:
+            path: auctions/interested/{auctionId}
+            method: DELETE
+            cors: true
+  
+  getInterestedUsers:
+    handler: lambdas/endpoints/auctions/getUsersInterested.handler
+    events:
+      - http:  
+            path: auctions/interested/{auctionId}
+            method: GET
+            cors: true
+
+  getAuctionById:
+    handler: lambdas/endpoints/auctions/getAuctionById.handler
+    events:
+      - http:
+            path: auctions/get/{auctionId}
+            method: GET
+            cors: true
+            
             
   createCategory:
     handler: lambdas/endpoints/categories/createCategory.handler
@@ -261,7 +303,6 @@ functions:
             path: categories/
             method: POST
             cors: true
-            private: true
 
   getCategories:
     handler: lambdas/endpoints/categories/getCategories.handler
@@ -271,6 +312,14 @@ functions:
             method: GET
             cors: true
 
+  updateCategory:
+    handler: lambdas/endpoints/categories/updateCategoryById.handler
+    events:
+      - http:
+            path: categories/{id}
+            method: PUT
+            cors: true
+
   deleteCategoryById:
     handler: lambdas/endpoints/categories/deleteCategoryById.handler
     events:
@@ -278,7 +327,6 @@ functions:
             path: categories/{id}
             method: DELETE
             cors: true
-            private: true
             
   getScheduledActions:
     handler: lambdas/endpoints/scheduled-actions/getScheduledActions.handler
@@ -288,12 +336,22 @@ functions:
             method: GET
             cors: true
             private: true
+
   scheduledAction:
     handler: lambdas/endpoints/scheduled-actions/scheduleAction.handler
     events:
       - http:
             path: scheduled-actions/
             method: POST
+            cors: true
+            private: true
+
+  getScheduledActionById:
+    handler: lambdas/endpoints/scheduled-actions/getScheduledActionById.handler
+    events:
+      - http:
+            path: scheduled-actions/{auctionId}
+            method: GET
             cors: true
             private: true
 
@@ -313,22 +371,7 @@ functions:
             path: send-multiple-sms/
             method: POST
             cors: true
-  
-  getOwnerAuctions:
-    handler: lambdas/endpoints/auctions/getOwnerAuctions.handler
-    events:
-      - http:
-            path: auctions/get-my-auctions
-            method: GET
-            cors: true
                               
-  createNotification:
-        handler: lambdas/endpoints/notifications/createNotification.handler
-        events:
-            - http:
-                  path: notifications/create
-                  method: POST
-                  cors: true
                               
   stream2cloudsearch:
     handler: lambdas/streams/stream2cloudsearch.handler

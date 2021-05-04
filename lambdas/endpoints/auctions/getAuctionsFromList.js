@@ -26,10 +26,9 @@ const parseAuction = (auction) => {
 }
 
 exports.handler = async event => {
-    console.log(event);
     try {
         const body = JSON.parse(event.body);
-        if (!body || !body.auctionIds || !body.auctionIds) {
+        if (!body || !body.auctionIds) {
             return Responses._400({ message: 'missing fields in body' });
         }
 
@@ -37,6 +36,8 @@ exports.handler = async event => {
             return Responses._200({ success: true, auctions: [] });
         }
         let items = body.auctionIds;
+
+        if(!items.length) return Responses._200({ success: true, auctions: [] });
 
         items = await CloudSearch.searchByIdList(items);
 

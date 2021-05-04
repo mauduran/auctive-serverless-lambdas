@@ -33,12 +33,59 @@ const CloudSearch = {
         params = {
             query: `status:"OPEN" AND category:"${category}", ${query} `,
             queryParser: "lucene",
-            size: 20
+
         }
 
         return CloudSearchRead.search(params).promise()
             .then(result => result.hits.hit);
     },
+
+    async searchAuctionsByPrice(minPrice, maxPrice, query) {
+        params = {
+            query: `status:"OPEN" AND (buy_now_price:[${minPrice} TO ${maxPrice}]), ${query} `,
+            queryParser: "lucene",
+
+        }
+
+        return CloudSearchRead.search(params).promise()
+            .then(result => result.hits.hit);
+    },
+    async searchAuctionsByFilter(query, category, minPrice, maxPrice) {
+
+        let q = 'status:"OPEN"';
+
+        if(category) q +=  ` AND category:"${category}"`;
+        if(minPrice || maxPrice) q +=  ` AND ((current_price: [* TO -1]  AND starting_price: [${minPrice} TO ${maxPrice}]) OR (current_price: [${minPrice!='*'?minPrice:0} TO ${maxPrice}]))`;
+
+        q += `, ${query}`;
+
+        params = {
+            query: q,
+            queryParser: "lucene",
+        }
+
+        return CloudSearchRead.search(params).promise()
+            .then(result => result.hits.hit);
+    },
+    async searchAuctionsByPrice(minPrice, maxPrice, query) {
+        params = {
+            query: `status:"OPEN" AND (buy_now_price:[${minPrice} TO ${maxPrice}]), ${query} `,
+            queryParser: "lucene",
+        }
+        return CloudSearchRead.search(params).promise()
+            .then(result => result.hits.hit);
+    },
+
+    async searchAuctionsByPriceAndCategory(minPrice, maxPrice, category, query) {
+        params = {
+            query: `status:"OPEN" AND category:"${category}" AND (buy_now_price:[${minPrice} TO ${maxPrice}]), ${query} `,
+            queryParser: "lucene",
+        }
+
+        return CloudSearchRead.search(params).promise()
+            .then(result => result.hits.hit);
+    },
+
     async searchByIdList(idList) {
         let queries = idList.map(id=>`auction_id:${id}`).join(" ");
         params = {
@@ -53,14 +100,12 @@ const CloudSearch = {
     async searchAuctions(query) {
         params = {
             query: `status:"OPEN", ${query}`,
-            size: 20,
             queryParser: "lucene",
         }
         return CloudSearchRead.search(params).promise()
             .then(result => result.hits.hit);
     }
 }
-
 
 
 

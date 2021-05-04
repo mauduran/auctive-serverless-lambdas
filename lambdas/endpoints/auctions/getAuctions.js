@@ -5,7 +5,7 @@ const parseAuction = (auction) => {
     let auction_id = auction.id;
 
     auction_id = auction_id.split('#');
-    auction_id = auction_id[auction_id.length-1];
+    auction_id = auction_id[auction_id.length - 1];
     auction = auction.fields;
     return {
         auction_id, auction_id,
@@ -27,18 +27,26 @@ const parseAuction = (auction) => {
 }
 
 exports.handler = async event => {
-    const query = event.queryStringParameters && event.queryStringParameters.q || '';
+
+    let { q, category, minPrice, maxPrice } = event.queryStringParameters;
+
+    const query = q || '';
+
     
-    const category = event.queryStringParameters && event.queryStringParameters.category;
     try {
         let items = [];
-        if (category) {
-            items = await CloudSearch.searchAuctionsByCategory(category, query);
+        
+        if (category || maxPrice || minPrice){
+            maxPrice = maxPrice || '*';
+            minPrice = minPrice || '*';
+            items = await CloudSearch.searchAuctionsByFilter(query, category, minPrice, maxPrice);
         } else {
             items = await CloudSearch.searchAuctions(query);
         }
 
-        items = items.map(auction => parseAuction(auction));
+        items = items.map(auction => {
+            return parseAuction(auction);
+        });
         return Responses._200({ success: true, auctions: items });
     } catch (error) {
         console.log(error);
