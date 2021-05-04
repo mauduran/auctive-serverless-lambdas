@@ -29,8 +29,12 @@ exports.handler = async event => {
     console.log(event);
     try {
         const body = JSON.parse(event.body);
-        if (!body || !body.auctionIds || !body.auctionIds.length) {
+        if (!body || !body.auctionIds || !body.auctionIds) {
             return Responses._400({ message: 'missing fields in body' });
+        }
+
+        if(!body.auctionIds.length) {
+            return Responses._200({ success: true, auctions: [] });
         }
         let items = body.auctionIds;
 

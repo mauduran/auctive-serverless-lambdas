@@ -33,6 +33,7 @@ exports.handler = async event => {
         await createUser(name, email, password);
         return Responses._201({ success: true, message: "User Successfully created" });
     } catch (error) {
+        console.log(error);
         if (error.code && error.code == "ConditionalCheckFailedException") {
             return Responses._409({ error: true, message: "User already exists." });
         }
