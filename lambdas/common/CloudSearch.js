@@ -87,10 +87,10 @@ const CloudSearch = {
     },
 
     async searchByIdList(idList) {
-        let queries = idList.map(id=>`auction_id:${id}`).join(" ");
+        let queries = idList.join(" OR ");
         params = {
-            query: `(or ${queries})`,
-            queryParser: "structured",
+            query: `auction_id: (${queries})`,
+            queryParser: "lucene",
         }
 
         return CloudSearchRead.search(params).promise()
