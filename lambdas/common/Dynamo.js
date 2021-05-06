@@ -16,6 +16,14 @@ const Dynamo = {
         return dynamoDB.put(params).promise()
     },
 
+    async write(data) {
+        params = {
+            TableName: process.env.tableName,
+            Item: data,
+        }
+        return dynamoDB.put(params).promise()
+    },
+
     async findDocumentByKey(key) {
         const params = {
             TableName: process.env.tableName,

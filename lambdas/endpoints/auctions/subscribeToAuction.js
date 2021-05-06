@@ -10,7 +10,7 @@ const subscribeUserToAuction = async (email, auctionId) => {
         interested_user: email,
         auctionId: auctionId
     }
-    return await Dynamo.writeIfNotExists(item, 'PK');
+    return await Dynamo.write(item);
 }
 exports.handler = async event => {
     try {
