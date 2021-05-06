@@ -3,8 +3,6 @@ const Dynamo = require('../../common/Dynamo');
 
 exports.handler = async event => {
     try {
-        console.log(event);
-
         const params = event.pathParameters;
 
         const { auctionId } = params;
